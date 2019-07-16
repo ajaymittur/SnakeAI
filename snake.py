@@ -14,9 +14,9 @@ class Snake:
         self.speed = new_speed
 
     def move_body(self):
+        for i in range(self.body_size - 1, 1, -1):
+            self.body[i].x, self.body[i].y = self.body[i-1].x, self.body[i-1].y
         if self.body_size > 1:
-            for i in range(self.body_size - 1, 1, -1):
-                self.body[i].x, self.body[i].y = self.body[i-1].x, self.body[i-1].y
             self.body[1].x, self.body[1].y = self.head_position
 
     def move_head(self):
