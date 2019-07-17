@@ -1,14 +1,14 @@
 # SnakeAI
 
 # Algorithm (Domain Specific)
-- **Setup heuristic function to calculate cost of travel from given node to destination**
+- **Setup heuristic function to calculate cost of travel from given cell to destination**
     - Euclidean distance
 - **Get adjacent cells**
 - **Validate cells**
     - Outside boundary
     - Belongs to snake body
     - Reject invalid cells
-- **For each valid adj cell** 
+- **For each valid adjacent cell** 
     - Apply heuristic function and find cost
     - Chose cell with lowest cost
     - If cost of cells is equal
@@ -21,3 +21,7 @@
         - x = 0 and y = 1 -> move down
         - x = 0 and y = -1 -> move up
 - **Move head in that direction**
+
+# Performance
+- Does well upto an average score of **50**
+- Struggles at **large** body sizes when fruit is present **close** to the body
