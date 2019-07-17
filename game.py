@@ -91,10 +91,10 @@ while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE or event.key == pygame.K_q:
+                sys.exit()
         '''Uncomment if you want to play it yourself'''
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_ESCAPE or event.key == pygame.K_q:
-        #         sys.exit()
         #     if event.key == pygame.K_RIGHT:
         #         snake.set_speed([20, 0])
         #     if event.key == pygame.K_LEFT:
@@ -109,18 +109,28 @@ while 1:
 
     if pygame.key.get_focused():
         snake.move_head()
+        check_bodyhead_collision(snake_body)
+        snake.move_body()
 
         snake_body_coords = snake.get_body_coords()
-        adjacent_cells = ai.getAdjacentCells(snake_body[0])
+        adjacent_cells = ai.getAdjacentCells(snake_body_coords[0])
         valid_cells = ai.getValidCells(adjacent_cells, snake_body_coords)
         costs = ai.getCosts(valid_cells, (fruit_rect.x, fruit_rect.y))
+        # print(costs)
         cell_with_least_cost = ai.cellWithLeastCost(valid_cells, costs)
-        dirX, dirY = ai.getDirection(cell_with_least_cost, snake_body[0])
+        dirX, dirY = ai.getDirection(cell_with_least_cost, snake_body_coords[0])
+        '''Uncomment for debugging ai'''
+        # print('snake_body: ', snake_body_coords)
+        # print('new fruit: ', fruit_rect.x, fruit_rect.y)
+        # print('adjacent_cells: ', adjacent_cells)
+        # print('valid_cells: ', valid_cells)
+        # print('cell_with_least_cost: ',cell_with_least_cost)
+        # print('direction: ', dirX, dirY)
+        # print('score: ', score)
+        # print('-----------------------------')
         speed = [20*dirX, 20*dirY]
         snake.set_speed(speed)
 
-        check_bodyhead_collision(snake_body)
-        snake.move_body()
         screen.fill(black)
         check_boundaries(snake_body[0])
         pygame.draw.rect(screen, fruit.color, fruit_rect)
@@ -130,7 +140,7 @@ while 1:
         if snake_body[0].colliderect(fruit_rect):
             fruit_eaten = True
             eaten_fruit_position = fruit_rect.x, fruit_rect.y
-            fruit_rect = fruit.change_pos(screen_width, screen_height)
+            fruit_rect = fruit.change_pos(screen_width, screen_height, snake_body_coords)
             score += 1
             display_score = True
             set_timer = True
@@ -145,6 +155,6 @@ while 1:
             set_timer = False
 
         pygame.display.update()
-        clock.tick(10)
+        clock.tick(60)
         # same as above ie. 10 frames per second
         # pygame.time.delay(100)
