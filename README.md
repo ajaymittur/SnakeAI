@@ -15,14 +15,13 @@
         - chose any one
 - find direction of the cell
     - subtract coords to find which coord becomes 0
-        -  valid adj cell coords - head coords
-    - x > 0 and y = 0
+        -  (valid adj cell coords - head coords) / 20
+    - x = 1 and y = 0
         - move right
-    - x < 0 and y = 0
+    - x = -1 and y = 0
         - move left
-    - x = 0 and y > 0
+    - x = 0 and y = 1
         - move down
-    - x = 0 and y < 0
+    - x = 0 and y = -1
         - move up
 - move head in that direction 
-- repeat
