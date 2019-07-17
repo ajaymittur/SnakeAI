@@ -1,4 +1,5 @@
 # SnakeAI
+**Very basic** AI for the popular snake game. It makes use of _Euclidean distance_ to guide itself to the fruit. The user can play the game by uncommenting the commented lines.
 
 # Algorithm (Domain Specific)
 - **Setup heuristic function to calculate cost of travel from given cell to destination**
