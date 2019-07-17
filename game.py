@@ -3,13 +3,13 @@ import os
 import pygame
 from fruit import Fruit
 from snake import Snake
+import ai
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
 
 screen_size = screen_width, screen_height = 820, 820
 black = 0, 0, 0
 white = 255, 255, 255
-speed = [0, 0]
 font_size = 36
 margin = 100
 HIDESCORE = pygame.USEREVENT + 1
@@ -91,23 +91,34 @@ while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE or event.key == pygame.K_q:
-                sys.exit()
-            if event.key == pygame.K_RIGHT:
-                snake.set_speed([20, 0])
-            if event.key == pygame.K_LEFT:
-                snake.set_speed([-20, 0])
-            if event.key == pygame.K_DOWN:
-                snake.set_speed([0, 20])
-            if event.key == pygame.K_UP:
-                snake.set_speed([0, -20])
+        '''Uncomment if you want to play it yourself'''
+        # if event.type == pygame.KEYDOWN:
+        #     if event.key == pygame.K_ESCAPE or event.key == pygame.K_q:
+        #         sys.exit()
+        #     if event.key == pygame.K_RIGHT:
+        #         snake.set_speed([20, 0])
+        #     if event.key == pygame.K_LEFT:
+        #         snake.set_speed([-20, 0])
+        #     if event.key == pygame.K_DOWN:
+        #         snake.set_speed([0, 20])
+        #     if event.key == pygame.K_UP:
+        #         snake.set_speed([0, -20])
         if event.type == HIDESCORE:
             display_score = False
             pygame.time.set_timer(HIDESCORE, 0)
 
     if pygame.key.get_focused():
         snake.move_head()
+
+        snake_body_coords = snake.get_body_coords()
+        adjacent_cells = ai.getAdjacentCells(snake_body[0])
+        valid_cells = ai.getValidCells(adjacent_cells, snake_body_coords)
+        costs = ai.getCosts(valid_cells, (fruit_rect.x, fruit_rect.y))
+        cell_with_least_cost = ai.cellWithLeastCost(valid_cells, costs)
+        dirX, dirY = ai.getDirection(cell_with_least_cost, snake_body[0])
+        speed = [20*dirX, 20*dirY]
+        snake.set_speed(speed)
+
         check_bodyhead_collision(snake_body)
         snake.move_body()
         screen.fill(black)

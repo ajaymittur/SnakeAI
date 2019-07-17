@@ -30,6 +30,12 @@ class Snake:
     def get_body(self):
         return self.body
 
+    def get_body_coords(self):
+        coords = []
+        for body_rect in self.body:
+            coords.append((body_rect.x, body_rect.y))
+        return coords
+
 
     
 
