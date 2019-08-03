@@ -93,12 +93,13 @@ def cellWithLeastCost(valid_cells, costs):
         Return:
             cell_with_least_cost: tuple -> (x, y)
     """
-
-    lowest_cost = min(costs)
-    least_cost_cell_index = costs.index(lowest_cost)  
-    cell_with_least_cost = valid_cells[least_cost_cell_index]  
-
-    return cell_with_least_cost
+    if costs:
+        lowest_cost = min(costs)
+        least_cost_cell_index = costs.index(lowest_cost)  
+        cell_with_least_cost = valid_cells[least_cost_cell_index]  
+        return cell_with_least_cost
+    else:
+        return None
 
 def getDirection(cell_with_least_cost, head):
     """
