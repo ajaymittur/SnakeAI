@@ -18,6 +18,7 @@ screen = pygame.display.set_mode(screen_size)
 clock = pygame.time.Clock()
 font = pygame.font.Font(None, font_size)
 
+
 def gameInit():
     # make variables global and make function access global variables
     global fruit
@@ -42,16 +43,13 @@ def gameInit():
 
     print('Game Initialized')
 
-
 def check_boundaries(head):
     if head.left < 0 or head.right > screen_width or head.top < 0 or head.bottom > screen_height:
         gameOver()
 
-
 def check_bodyhead_collision(body):
     if body[0].collidelist(body[1:]) != -1:
         gameOver()
-
 
 def gameOver():
     screen.fill(white)
@@ -85,7 +83,6 @@ def displayScore(score, set_timer):
     if set_timer:
         pygame.time.set_timer(HIDESCORE, 2000)
 
-
 gameInit()
 while 1:
     for event in pygame.event.get():
@@ -116,8 +113,9 @@ while 1:
         adjacent_cells = ai.getAdjacentCells(snake_body_coords[0])
         valid_cells = ai.getValidCells(adjacent_cells, snake_body_coords)
         costs = ai.getCosts(valid_cells, (fruit_rect.x, fruit_rect.y))
-        # print(costs)
         cell_with_least_cost = ai.cellWithLeastCost(valid_cells, costs)
+        if not cell_with_least_cost:
+            gameOver()
         dirX, dirY = ai.getDirection(cell_with_least_cost, snake_body_coords[0])
         '''Uncomment for debugging ai'''
         # print('snake_body: ', snake_body_coords)
@@ -156,5 +154,5 @@ while 1:
 
         pygame.display.update()
         clock.tick(60)
-        # same as above ie. 10 frames per second
-        # pygame.time.delay(100)
+        '''Uncomment below code and run to see time taken for each frame/loop iteration'''
+        # print(clock.get_rawtime())
